@@ -24,11 +24,40 @@ Route::get('/dashboard', function () {
 
 
 Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function(){
-
     // Admin Login Route 
     Route::match(['get','post'],'login','AdminController@login');
+    Route::group(['middleware'=>['admin']],function(){
+        // Admin Login Route 
+        Route::get('dashboard','AdminController@dashboard');
+    
+        //Update Admin Password
+        Route::match(['get','post'],'update-admin-password','AdminController@updateAdminPassword');
 
-    // Admin Login Route 
-    Route::get('dashboard','AdminController@dashboard');
-});
+        //Check Admin Password
+        Route::post('check-admin-password','AdminController@checkAdminPassword');
+
+        //Update Admin Details
+        Route::match(['get','post'],'update-admin-details','AdminController@updateAdminDetails');
+
+        //Update Vendor Details
+        Route::match(['get','post'],'update-vendor-details/{slug}','AdminController@updateVendorDetails');
+
+        // View Admins / Subadmins / Vendors
+        Route::get('admins/{type?}','AdminController@admins');
+
+        // View Vendor Details
+        Route::get('view-vendor-details/{id}','AdminController@viewVendorDetails');
+
+         // Update Admin status
+         Route::post('update-admin-status','AdminController@updateAdminStatus');
+
+        // Admin logut here
+        Route::get('logout','AdminController@logout');
+
+        //Sections
+        Route::get('sections','SectionController@sections');
+         // Update Section status
+         Route::post('update-section-status','SectionController@updateSectionStatus');
+    }); 
+}); 
 

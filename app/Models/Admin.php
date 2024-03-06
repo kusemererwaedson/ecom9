@@ -4,8 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Admin extends Model
+class Admin extends Authenticatable 
 {
     use HasFactory;
+    protected $guard = 'admin';
+
+    public function vendorPersonal(){
+        return $this->belongsTo('App\Models\vendor','vendor_id');
+    }
+
+    public function vendorBusiness(){
+        return $this->belongsTo('App\Models\vendorsBusinessDetails','vendor_id');
+    }
+
+    public function vendorBank(){
+        return $this->belongsTo('App\Models\vendorsBankDetails','vendor_id');
+    }
 }
