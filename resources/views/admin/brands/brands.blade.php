@@ -6,11 +6,11 @@
             <div class="col-lg-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h6 class="font-weight-normal mb-0">Sections</h6>
+                  <h6 class="font-weight-normal mb-0">Brands</h6>
                   {{-- <p class="card-description">
                     Add class <code>.table-bordered</code>
                   </p> --}}
-                  <a style="max-width: 150px; float: right; display: inline-block;" href="{{ url('admin/add-edit-section') }}" class="btn btn-block btn-primary">Add Section</a>
+                  <a style="max-width: 150px; float: right; display: inline-block;" href="{{ url('admin/add-edit-brand') }}" class="btn btn-block btn-primary">Add brand</a>
                   @if(Session::has('success_message'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                       <strong>Success: </strong> {{Session::get('success_message')}} 
@@ -20,7 +20,7 @@
                     </div>
                   @endif
                   <div class="table-responsive pt-3">
-                    <table id="sections" class="table table-bordered">
+                    <table id="brands" class="table table-bordered">
                       <thead>
                         <tr>
                           <th>
@@ -38,26 +38,26 @@
                         </tr>
                       </thead>
                       <tbody>
-                      @foreach($sections as $section)
+                      @foreach($brands as $brand)
                         <tr>
                           <td>
-                            {{$section['id']}}
+                            {{$brand['id']}}
                           </td>
                           <td>
-                            {{$section['name']}}
+                            {{$brand['name']}}
                           </td>
                           <td>
-                            @if($section['status']==1)
-                               <a class="updateSectionStatus" id="section-{{$section['id']}}" section_id="{{ $section['id'] }}" href="javascript:void(0)"><i style="font-size: 25px;" class="mdi mdi-bookmark-check" status="Active"></i></a>
+                            @if($brand['status']==1)
+                               <a class="updateBrandStatus" id="brand-{{$brand['id']}}" brand_id="{{ $brand['id'] }}" href="javascript:void(0)"><i style="font-size: 25px;" class="mdi mdi-bookmark-check" status="Active"></i></a>
                             @else
-                               <a class="updateSectionStatus" id="section-{{$section['id']}}" section_id="{{ $section['id'] }}" href="javascript:void(0)"><i style="font-size: 25px;" class="mdi mdi-bookmark-outline" status="Inactive"></i></a>
+                               <a class="updateBrandStatus" id="brand-{{$brand['id']}}" brand_id="{{ $brand['id'] }}" href="javascript:void(0)"><i style="font-size: 25px;" class="mdi mdi-bookmark-outline" status="Inactive"></i></a>
                             @endif
                           </td>
                           <td>
-                              <a href="{{ url('admin/add-edit-section/'.$section['id']) }}"><i style="font-size: 25px;" class="mdi mdi-pencil-box"></i></a>
-                              {{-- <a onclick="return confirm('Do you want to delete section?');" href="{{ url('admin/delete-section/'.$section['id']) }}"><i style="font-size: 25px;" class="mdi mdi-file-excel-box"></i></a> --}}
-                              {{-- <a title="section" class="confirmDelete" href="{{ url('admin/delete-section/'.$section['id']) }}"><i style="font-size: 25px;" class="mdi mdi-file-excel-box"></i></a> --}}
-                              <a href="javascript:void(0)" class="confirmDelete" module="section" moduleid="{{ $section['id']}}"><i style="font-size: 25px;" class="mdi mdi-file-excel-box"></i></a>
+                              <a href="{{ url('admin/add-edit-brand/'.$brand['id']) }}"><i style="font-size: 25px;" class="mdi mdi-pencil-box"></i></a>
+                              {{-- <a onclick="return confirm('Do you want to delete brand?');" href="{{ url('admin/delete-brand/'.$brand['id']) }}"><i style="font-size: 25px;" class="mdi mdi-file-excel-box"></i></a> --}}
+                              {{-- <a title="brand" class="confirmDelete" href="{{ url('admin/delete-brand/'.$brand['id']) }}"><i style="font-size: 25px;" class="mdi mdi-file-excel-box"></i></a> --}}
+                              <a href="javascript:void(0)" class="confirmDelete" module="brand" moduleid="{{ $brand['id']}}"><i style="font-size: 25px;" class="mdi mdi-file-excel-box"></i></a>
                               
                           </td>
                         </tr>
