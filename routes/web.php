@@ -84,6 +84,23 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::post('update-product-status','ProductsController@updateProductStatus');
         Route::get('delete-product/{id}','ProductsController@deleteProduct');
         Route::match(['get','post'],'add-edit-product/{id?}','ProductsController@addEditProduct');
+
+        Route::get('delete-product-image/{id}','ProductsController@deleteProductImage');
+        Route::get('delete-product-video/{id}','ProductsController@deleteProductVideo');
+
+        //Attributes
+        Route::match(['get','post'],'add-edit-attributes/{id?}','ProductsController@addAttributes');
+        Route::post('update-attribute-status','ProductsController@updateAttributeStatus');
+        Route::get('delete-attribute/{id}','ProductsController@deleteAttribute');
+        Route::match(['get','post'],'edit-attributes/{id}','ProductsController@editAttributes');
+
+        // Images
+        Route::match(['get','post'],'add-images/{id}','ProductsController@addImages');
+        Route::get('delete-image/{id}','ProductsController@deleteImage');
+        Route::post('update-image-status','ProductsController@updateImageStatus');
     }); 
 }); 
 
+Route::namespace('App\Http\Controllers\Front')->group(function(){
+    Route::get('/','IndexController@index');
+});

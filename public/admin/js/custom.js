@@ -196,5 +196,77 @@ $(document).ready(function(){
             }
         });
     });
+
+    // Products Attributes Add/Remove Script
+    var maxfield = 10; //Input field increment limitation
+    var addButton = $('.add_button'); //Add button selector
+    var wrapper = $('.field_wrapper'); //Input field wrapper
+    var fieldHTML = '<div><div style="height: 10px;"></div><input type="text" name="size[]" placeholder="Size" style="width: 80px;"/>&nbsp;<input type="text" name="sku[]" placeholder="SKU" style="width: 80px;"/>&nbsp;<input type="text" name="price[]" placeholder="Price" style="width: 80px;"/>&nbsp;<input type="text" name="stock[]" placeholder="Stock" style="width: 80px;"/>&nbsp;<a href="javascript:void(0);" class="remove_button">Remove</a></div>'; // New Input Field html
+    
+    var x = 1; //initial field counter
+
+    // once add button is clicked
+    $(addButton).click(function(){
+        // check maximum number of input fields
+        if(x < maxfield){
+            x++; //Increment field counter
+            $(wrapper).append(fieldHTML); //Add field html
+        }
+    });
+
+    //Once remove button is clicked
+    $(wrapper).on('click','.remove_button',function(e){
+        e.preventDefault();
+        $(this).parent('div').remove(); //Remove HTML
+        x--; //Decrement field counter
+    });
+
+    // Update Attribute status
+    $(document).on("click",".updateAttributeStatus",function(){
+        var status = $(this).children("i").attr("status");
+        var attribute_id = $(this).attr("attribute_id");
+        $.ajax({
+            // headers: {
+            //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            // },
+            type:'post',
+            url:'/admin/update-attribute-status',
+            data:{status:status,attribute_id:attribute_id},
+            success:function(resp){
+                // alert(resp);
+                if(resp['status']==0){
+                    $("#attribute-"+attribute_id).html("<i style='font-size:25px' class='mdi mdi-bookmark-outline' status='Active'></i>")
+                }else if(resp['status']==1){
+                    $("#attribute-"+attribute_id).html("<i style='font-size:25px' class='mdi mdi-bookmark-check' status='Inactive'></i>")
+                }
+            },error:function(){
+                alert("error");
+            }
+        })
+    }); 
+
+    // Update Image status
+    $(document).on("click",".updateImageStatus",function(){
+        var status = $(this).children("i").attr("status");
+        var image_id = $(this).attr("image_id");
+        $.ajax({
+            // headers: {
+            //     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            // },
+            type:'post',
+            url:'/admin/update-image-status',
+            data:{status:status,image_id:image_id},
+            success:function(resp){
+                // alert(resp);
+                if(resp['status']==0){
+                    $("#image-"+image_id).html("<i style='font-size:25px' class='mdi mdi-bookmark-outline' status='Active'></i>")
+                }else if(resp['status']==1){
+                    $("#image-"+image_id).html("<i style='font-size:25px' class='mdi mdi-bookmark-check' status='Inactive'></i>")
+                }
+            },error:function(){
+                alert("error");
+            }
+        })
+    });
     
 })

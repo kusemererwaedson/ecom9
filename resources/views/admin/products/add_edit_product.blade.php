@@ -59,9 +59,7 @@
                    </div>
                  @endif
 
-                  <form class="forms-sample" @if(empty($product['id'])) action="{{ url('admin/add-edit-product') }}" @else action="{{url('admin/add-edit-product/'.$product['id'])}}" @endif method="post" enctype="multipart/form-data">@csrf
-
-                     
+                  <form class="forms-sample" @if(empty($product['id'])) action="{{ url('admin/add-edit-product') }}" @else action="{{url('admin/add-edit-product/'.$product['id'])}}" @endif method="post" enctype="multipart/form-data">@csrf                     
                     <div class="form-group">
                       <label for="category_id">Select Category</label>
                       <select name="category_id" id="category_id" class="form-control" style="color: #000;">
@@ -69,9 +67,9 @@
                         @foreach($categories as $section)
                           <optgroup label="{{ $section['name']}} "></optgroup>
                           @foreach($section['categories'] as $category)
-                            <option value="{{$category['category_name']}}">&nbsp;&nbsp;-->&nbsp;{{$category['category_name']}}</option>
+                            <option @if(!empty($product['category_id']==$category['id'])) selected="" @endif value="{{$category['id']}}">&nbsp;&nbsp;-->&nbsp;{{$category['category_name']}}</option>
                             @foreach($category['subcategories'] as $subcategory)
-                            <option value="{{$subcategory['category_name']}}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--{{$subcategory['category_name']}}</option>
+                            <option @if(!empty($product['category_id']==$subcategory['id'])) selected="" @endif value="{{$subcategory['id']}}">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--{{$subcategory['category_name']}}</option>
                             @endforeach
                           @endforeach
                         @endforeach
@@ -82,7 +80,7 @@
                       <select name="brand_id" id="brand_id" class="form-control" style="color: #000;">
                       <option value="">Select</option>
                         @foreach($brands as $brand)
-                          <option value="{{$brand['id']}}">{{$brand['name']}}</option>
+                          <option value="{{$brand['id']}}" @if(!empty($product['brand_id']==$brand['id'])) selected="" @endif >{{$brand['name']}}</option>
                         @endforeach
                       </select>
                     </div>
@@ -111,24 +109,32 @@
                       <input type="text" class="form-control" id="product_weight" placeholder="Enter product Weight" name="product_weight" @if(empty($product['product_weight'])) value="{{old('product_weight')}}" @else value="{{$product['product_weight']}}" @endif>
                     </div>
                     <div class="form-group">
-                      <label for="product_image">product Photo</label>
+                      <label for="product_image">product Image (Recommended Size: 1000x1000)</label>
                       <input type="file" class="form-control" id="product_image" name="product_image" >
                       @if(!empty($product['product_image']))
-                        <a href="{{ url('front/images/product_images/'.$product['product_image'])}}">View Image</a>&nbsp;|&nbsp;
+                        <a href="{{ url('front/images/product_images/large/'.$product['product_image'])}}">View Image</a>&nbsp;|&nbsp;
                         <a href="javascript:void(0)" class="confirmDelete" module="product-image" moduleid="{{$product['id']}}">Delete Image</a>
                       @endif
                     </div>
                     <div class="form-group">
-                      <label for="product_video">product Video</label>
-                      <input type="file" class="form-control" id="product_vidoe" name="product_vidoe" >
+                      <label for="product_video">Product Video  (Recommended Size: Less than 2 Mbs)</label>
+                      <input type="file" class="form-control" id="product_video" name="product_video" >
                       @if(!empty($product['product_video']))
                         <a href="{{ url('front/videos/product_videos/'.$product['product_video'])}}">View Video</a>&nbsp;|&nbsp;
                         <a href="javascript:void(0)" class="confirmDelete" module="product-video" moduleid="{{$product['id']}}">Delete Video</a>
                       @endif
                     </div>
                     <div class="form-group">
+                      <label for="category_description">Product Description</label>
+                      <textarea name="description" id="description" class="form-control" rows="3">{{$product['description']}}</textarea>
+                    </div>
+                    <div class="form-group">
                       <label for="meta_title">Meta Title</label>
                       <input type="text" class="form-control" id="meta_title" placeholder="Enter Meta Title" name="meta_title" @if(empty($product['meta_title'])) value="{{old('meta_title')}}" @else value="{{$product['meta_title']}}" @endif>
+                    </div>
+                    <div class="form-group">
+                      <label for="meta_description">Meta Description</label>
+                      <input type="text" class="form-control" id="meta_description" placeholder="Enter Meta Description" name="meta_description" @if(empty($product['meta_description'])) value="{{old('meta_description')}}" @else value="{{$product['meta_description']}}" @endif>
                     </div>
                     <div class="form-group">
                       <label for="meta_keywords">Meta Keywords</label>

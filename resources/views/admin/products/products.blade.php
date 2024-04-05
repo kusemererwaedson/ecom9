@@ -36,6 +36,9 @@
                             Product Color
                           </th>
                           <th>
+                            Product Image
+                          </th>
+                          <th>
                             Category
                           </th>
                           <th>
@@ -68,6 +71,13 @@
                             {{$product['product_color']}}
                           </td>
                           <td>
+                              @if(!empty($product['product_image']))
+                                <img style="width: 50px; height: 50px;" src="{{asset('front/images/product_images/small/'.$product['product_image'])}}">
+                              @else
+                                <img style="width: 50px; height: 50px;" src="{{asset('front/images/product_images/small/ecom9S.png')}}">
+                              @endif  
+                          </td>
+                          <td>
                             {{$product['category']['category_name']}}
                           </td>
                           <td>
@@ -88,7 +98,9 @@
                             @endif
                           </td>
                           <td>
-                              <a href="{{ url('admin/add-edit-product/'.$product['id']) }}"><i style="font-size: 25px;" class="mdi mdi-pencil-box"></i></a>
+                              <a title="Edit Products" href="{{ url('admin/add-edit-product/'.$product['id']) }}"><i style="font-size: 25px;" class="mdi mdi-pencil-box"></i></a>
+                              <a title="Add Attributes" href="{{ url('admin/add-edit-attributes/'.$product['id']) }}"><i style="font-size: 25px;" class="mdi mdi-plus-box"></i></a>                              
+                              <a title="Add Multiple Images" href="{{ url('admin/add-images/'.$product['id']) }}"><i style="font-size: 25px;" class="mdi mdi-library-plus"></i></a>
                               <a href="javascript:void(0)" class="confirmDelete" module="product" moduleid="{{ $product['id']}}"><i style="font-size: 25px;" class="mdi mdi-file-excel-box"></i></a>
                               
                           </td>
