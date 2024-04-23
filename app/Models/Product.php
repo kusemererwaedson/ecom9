@@ -21,4 +21,24 @@ class Product extends Model
     public function images(){
         return $this->hasMany('App\Models\ProductsImages');
     }
+    public static function getDiscountPrice($product_id){
+        $proDetails = Product::select('product_price','product_discount','category_id')->where('id',$product_id)->first();
+        $proDetails = json_decode(json_encode($proDetails),true);
+        $catDetails = category::select('category_discount')->where('id',$proDetails['category_id'])->first();
+        $catDetails = json_decode(json_encode($proDetails),true);
+
+        if($proDetails['product_discount']>0){
+            //if product discount is added from the admin panel
+            $discounted_price = $proDetails['product_price'] - ($proDetails['product_price']*$proDetails['product_discount']/100);
+
+        }else if ($catDetails['category_discount']>0){
+            //if product discount is not added but category discount added from the admin panel
+            $discounted_price = $proDetails['product_price'] - ($proDetails['product_price']*$proDetails['category_discount']/100);
+
+        }else{
+            $discounted_price = 0;
+        }
+
+        return $discounted_price;
+    }
 }

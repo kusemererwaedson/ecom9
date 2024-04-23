@@ -242,6 +242,7 @@ class AdminController extends Controller
         return view('admin.login');
     }
     public function admins($type=null){
+        Session::put('page','dashboard');
         $admins = Admin::query();
         if(!empty($type)){
             $admins = $admins->where('type',$type);

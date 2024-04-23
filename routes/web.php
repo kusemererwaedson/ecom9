@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminController;
+use App\Models\Category;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -79,7 +80,7 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::get('delete-category/{id}','CategoryController@deleteCategory');
         Route::get('delete-category-image/{id}','CategoryController@deleteCategoryImage');
 
-        // Prpducts
+        // Products
         Route::get('products','ProductsController@products');
         Route::post('update-product-status','ProductsController@updateProductStatus');
         Route::get('delete-product/{id}','ProductsController@deleteProduct');
@@ -98,9 +99,22 @@ Route::prefix('/admin')->namespace('App\Http\Controllers\Admin')->group(function
         Route::match(['get','post'],'add-images/{id}','ProductsController@addImages');
         Route::get('delete-image/{id}','ProductsController@deleteImage');
         Route::post('update-image-status','ProductsController@updateImageStatus');
+
+        //Banners
+        Route::get('banners','BannersController@banners');
+        Route::post('update-banner-status','BannersController@updateBannerStatus');
+        Route::get('delete-banner/{id}','BannersController@deleteBanner');
+        Route::get('delete-banner-image/{id}','BannersController@deleteBanner');
+        Route::match(['get','post'],'add-edit-banner/{id?}','BannersController@addEditBanner');
     }); 
 }); 
 
 Route::namespace('App\Http\Controllers\Front')->group(function(){
     Route::get('/','IndexController@index');
+
+    //Listing/Categories Routes
+    $catUrls = Category::select('url')->where('status',1)->get()->pluck('url')->toArray();
+    foreach ($catUrls as $key => $url){
+        Route::get('/'.$url,'ProductsController@listing');
+    }
 });
