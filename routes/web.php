@@ -115,6 +115,6 @@ Route::namespace('App\Http\Controllers\Front')->group(function(){
     //Listing/Categories Routes
     $catUrls = Category::select('url')->where('status',1)->get()->pluck('url')->toArray();
     foreach ($catUrls as $key => $url){
-        Route::get('/'.$url,'ProductsController@listing');
+        Route::match(['get','post'],'/'.$url,'ProductsController@listing');
     }
 });
