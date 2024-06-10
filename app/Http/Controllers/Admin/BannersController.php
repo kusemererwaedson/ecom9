@@ -13,12 +13,14 @@ class BannersController extends Controller
     public function banners(){
         Session::put('page','banners');
         $banners = Banner::get()->toArray();
-        // dd($banners); die;
+        /*dd($banners); die;*/
         return view('admin.banners.banners')->with(compact('banners'));
     }
+
     public function updateBannerStatus(Request $request){
         if($request->ajax()){
             $data = $request->all();
+            /*echo "<pre>"; print_r($data); die;*/
             if($data['status']=="Active"){
                 $status = 0;
             }else{
@@ -28,36 +30,43 @@ class BannersController extends Controller
             return response()->json(['status'=>$status,'banner_id'=>$data['banner_id']]);
         }
     }
+
     public function deleteBanner($id){
-        //Get Banner Image
+        // Get Banner Image
         $bannerImage = Banner::where('id',$id)->first();
-        //Get Banner Image Path
+
+        // Get Banner Image Path
         $banner_image_path = 'front/images/banner_images/';
-        //Delete Banner Image if not exists in folder
+
+        // Delete Banner Image if exists in Folder
         if(file_exists($banner_image_path.$bannerImage->image)){
             unlink($banner_image_path.$bannerImage->image);
         }
-        //Delete Banner image from banners table
+
+        // Delete Banner Image from banners table
         Banner::where('id',$id)->delete();
-        $message = "Banner Deleted Successfully";
+
+        $message = "Banner deleted successfully!";
         return redirect('admin/banners')->with('success_message',$message);
     }
+
     public function addEditBanner(Request $request,$id=null){
-        Session::put('page','banners'); 
+        Session::put('page','banners');
         if($id==""){
             // Add Banner
             $banner = new Banner;
             $title = "Add Banner Image";
-            $message = "Banner added successfully";
+            $message = "Banner added successfully!";
         }else{
             // Update Banner
             $banner = Banner::find($id);
             $title = "Edit Banner Image";
-            $message = "Banner Updated successfully";
-            
+            $message = "Banner updated successfully!";
         }
+
         if($request->isMethod('post')){
-            $data  =  $request->all();
+            $data = $request->all();
+            /*echo "<pre>"; print_r($data); die;*/
 
             $banner->type = $data['type'];
             $banner->link = $data['link'];
@@ -73,26 +82,26 @@ class BannersController extends Controller
                 $height = "450";
             }
 
-            //upload Banner Photo
+            // Upload Banner Image
             if($request->hasFile('image')){
                 $image_tmp = $request->file('image');
-                    if($image_tmp->isValid()){
-                        // Get Image
-                        $extension = $image_tmp->getClientOriginalExtension();
-                        // Generate New Image
-                        $imageName = rand(111,99999).'.'.$extension;
-                        $imagePath = 'front/images/banner_images/'.$imageName;
-                        // upload the image
-                        Image::make($image_tmp)->resize($width,$height)->save($imagePath);
-                        $banner->image = $imageName;
-                    }
-                }else{
-                    $banner->image = "";
+                if($image_tmp->isValid()){
+                    // Get Image Extension
+                    $extension = $image_tmp->getClientOriginalExtension();
+                    // Generate New Image Name
+                    $imageName = rand(111,99999).'.'.$extension;
+                    $imagePath = 'front/images/banner_images/'.$imageName;
+                    // Upload the Image
+                    Image::make($image_tmp)->resize($width,$height)->save($imagePath);
+                    $banner->image = $imageName;
                 }
-                $banner->save();
-                return redirect('admin/banners')->with('success_message',$message);
+            }
+
+            $banner->save();
+            return redirect('admin/banners')->with('success_message',$message);
         }
 
         return view('admin.banners.add_edit_banner')->with(compact('title','banner'));
+
     }
 }

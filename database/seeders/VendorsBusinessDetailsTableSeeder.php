@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\VendorsBusinessDetails;
+use App\Models\VendorsBusinessDetail;
 
 class VendorsBusinessDetailsTableSeeder extends Seeder
 {
@@ -16,8 +16,8 @@ class VendorsBusinessDetailsTableSeeder extends Seeder
     public function run()
     {
         $vendorRecords = [
-            ['id'=>1,'vendor_id'=>1,'shop_name'=>'john_electronics_store','shop_address'=>'1234-SCF','shop_city'=>'kireka','shop_state'=>'kampala','shop_country'=>'Uganda','shop_pincode'=>'110001','shop_mobile'=>'0761488516','shop_website'=>'sitemakers.in','shop_email'=>'johnelec@gmail.com','address_proof'=>'national_id','address_proof_image'=>'test.jpg','business_license_number'=>'464567389','gst_number'=>'465789898','pan_number'=>'464567386',],
+            ['id'=>1,'vendor_id'=>1,'shop_name'=>'John Electronics Store','shop_address'=>'1234-SCF','shop_city'=>'New Delhi','shop_state'=>'Delhi','shop_country'=>'India','shop_pincode'=>'110001','shop_mobile'=>'97000000000','shop_website'=>'sitemakers.in','shop_email'=>'john@admin.com','address_proof'=>'Passport','address_proof_image'=>'test.jpg','business_license_number'=>'132435355','gst_number'=>'446466446','pan_number'=>'242355346'],
         ];
-        VendorsBusinessDetails::insert($vendorRecords);
+        VendorsBusinessDetail::insert($vendorRecords);
     }
 }

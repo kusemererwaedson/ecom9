@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\VendorsBankDetails;
+use App\Models\VendorsBankDetail;
 
 class VendorsBankDetailsTableSeeder extends Seeder
 {
@@ -16,8 +16,8 @@ class VendorsBankDetailsTableSeeder extends Seeder
     public function run()
     {
         $vendorRecords = [
-            ['id'=>1,'vendor_id'=>1,'account_holder_name'=>'john Mayambala','bank_name'=>'Centenary','account_number'=>'30001000101','bank_ifsc_code'=>'1244493939'],
+            ['id'=>1,'vendor_id'=>1,'account_holder_name'=>'John Cena','bank_name'=>'ICICI','account_number'=>'0243530500022','bank_ifsc_code'=>'24353563'],
         ];
-        VendorsBankDetails::insert($vendorRecords);
+        VendorsBankDetail::insert($vendorRecords);
     }
 }

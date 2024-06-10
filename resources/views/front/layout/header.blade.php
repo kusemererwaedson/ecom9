@@ -1,7 +1,11 @@
 <?php
 use App\Models\Section;
-$sections = Section::sections(); 
-// echo "<pre>"; print_r($sections);  die;  
+use App\Models\Currency;
+$sections = Section::sections();
+/*echo "<pre>"; print_r($sections); die;*/
+$totalCartItems = totalCartItems();
+$getCurrencies = getCurrencies();
+$page_url = Request::url();
 ?>
 <!-- Header -->
 <header>
@@ -13,12 +17,12 @@ $sections = Section::sections();
                     <li>
                         <a href="tel:+111222333">
                             <i class="fas fa-phone u-c-brand u-s-m-r-9"></i>
-                            Telephone:+111-222-333</a>
+                            Telephone:+256 761488516</a>
                     </li>
                     <li>
                         <a href="mailto:info@sitemakers.in">
                             <i class="fas fa-envelope u-c-brand u-s-m-r-9"></i>
-                            E-mail: info@sitemakers.in
+                            E-mail: edsonkusemererwa2000@gmail.com
                         </a>
                     </li>
                 </ul>
@@ -26,51 +30,75 @@ $sections = Section::sections();
             <nav>
                 <ul class="secondary-nav g-nav">
                     <li>
-                        <a>My Account
+                        <a>@if(Auth::check()) My Account @else Login/Register @endif
                             <i class="fas fa-chevron-down u-s-m-l-9"></i>
                         </a>
                         <ul class="g-dropdown" style="width:200px">
                             <li>
-                                <a href="cart.html">
+                                <a href="{{ url('cart') }}">
                                     <i class="fas fa-cog u-s-m-r-9"></i>
                                     My Cart</a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="wishlist.html">
                                     <i class="far fa-heart u-s-m-r-9"></i>
                                     My Wishlist</a>
-                            </li>
+                            </li> -->
                             <li>
-                                <a href="checkout.html">
+                                <a href="{{ url('checkout') }}">
                                     <i class="far fa-check-circle u-s-m-r-9"></i>
                                     Checkout</a>
                             </li>
-                            <li>
-                                <a href="account.html">
-                                    <i class="fas fa-sign-in-alt u-s-m-r-9"></i>
-                                    Customer Login</a>
-                            </li>
-                            <li>
-                                <a href="account.html">
-                                    <i class="fas fa-sign-in-alt u-s-m-r-9"></i>
-                                    Vendor Login</a>
-                            </li>
+                            @if(Auth::check())
+                                <li>
+                                    <a href="{{ url('user/account') }}">
+                                        <i class="fas fa-sign-in-alt u-s-m-r-9"></i>
+                                        My Account</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('user/orders') }}">
+                                        <i class="fas fa-sign-in-alt u-s-m-r-9"></i>
+                                        My Orders</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('user/logout') }}">
+                                        <i class="fas fa-sign-in-alt u-s-m-r-9"></i>
+                                        Logout</a>
+                                </li>
+                            @else
+                                <li>
+                                    <a href="{{ url('user/login-register') }}">
+                                        <i class="fas fa-sign-in-alt u-s-m-r-9"></i>
+                                        Customer Login</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url('vendor/login-register') }}">
+                                        <i class="fas fa-sign-in-alt u-s-m-r-9"></i>
+                                        Vendor Login</a>
+                                </li>
+                            @endif
                         </ul>
                     </li>
                     <li>
-                        <a>USD
-                            <i class="fas fa-chevron-down u-s-m-l-9"></i>
-                        </a>
+                        @if(isset($_GET['cy']))
+                            <a>{{ $_GET['cy'] }}
+                                <i class="fas fa-chevron-down u-s-m-l-9"></i>
+                            </a>
+                        @else
+                            <a>INR
+                                <i class="fas fa-chevron-down u-s-m-l-9"></i>
+                            </a>
+                        @endif
+                        
                         <ul class="g-dropdown" style="width:90px">
+                            @foreach($getCurrencies as $currency)
                             <li>
-                                <a href="#" class="u-c-brand">($) USD</a>
+                                <a @if(isset($_GET['cy']) && $currency['currency_code']==$_GET['cy']) style="font-weight: bold" @endif href="{{ $page_url }}?cy={{ $currency['currency_code'] }}" class="u-c-brand">{{ $currency['currency_code'] }}</a>
                             </li>
-                            <li>
-                                <a href="#">(£) GBP</a>
-                            </li>
+                            @endforeach
                         </ul>
                     </li>
-                    <li>
+                    <!-- <li>
                         <a>ENG
                             <i class="fas fa-chevron-down u-s-m-l-9"></i>
                         </a>
@@ -81,7 +109,7 @@ $sections = Section::sections();
                             <li>
                                 <a href="#">ARB</a>
                             </li>
-                        </ul>
+                        </ul> -->
                 </ul>
             </nav>
         </div>
@@ -93,24 +121,24 @@ $sections = Section::sections();
             <div class="row clearfix align-items-center">
                 <div class="col-lg-3 col-md-9 col-sm-6">
                     <div class="brand-logo text-lg-center">
-                        <a href="index.html">
-                            <img src="{{ asset('front/images/main-logo/stack-developers-logo.png') }}" alt="Stack Developers" class="app-brand-logo">
+                        <a href="{{url('/')}}">
+                <img style="width: 100px; height: 100px;" src="{{ asset('admin/images/lirauniversity.png') }}"  class="app-brand-logo" alt="hAKATEQ SOLUTION">
                         </a>
                     </div>
                 </div>
                 <div class="col-lg-6 u-d-none-lg">
-                    <form class="form-searchbox">
+                    <form class="form-searchbox" action="{{ url('/search-products') }}" method="get">
                         <label class="sr-only" for="search-landscape">Search</label>
-                        <input id="search-landscape" type="text" class="text-field" placeholder="Search everything">
+                        <input name="search" id="search-landscape" type="text" class="text-field" placeholder="Search everything" @if(isset($_REQUEST['search']) && !empty($_REQUEST['search'])) value="{{$_REQUEST['search']}}" @endif>
                         <div class="select-box-position">
                             <div class="select-box-wrapper select-hide">
                                 <label class="sr-only" for="select-category">Choose category for search</label>
-                                <select class="select-box" id="select-category">
+                                <select class="select-box" id="select-category" name="section_id">
                                     <option selected="selected" value="">
                                         All
                                     </option>
                                     @foreach($sections as $section)
-                                    <option value="">{{$section['name']}}</option>
+                                    <option @if(isset($_REQUEST['section_id']) && !empty($_REQUEST['section_id']) && $_REQUEST['section_id']==$section['id']) selected="" @endif value="{{ $section['id'] }}">{{ $section['name'] }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -122,20 +150,20 @@ $sections = Section::sections();
                     <nav>
                         <ul class="mid-nav g-nav">
                             <li class="u-d-none-lg">
-                                <a href="index.html">
+                                <a href="{{url('/')}}">
                                     <i class="ion ion-md-home u-c-brand"></i>
                                 </a>
                             </li>
-                            <li class="u-d-none-lg">
+                            <!-- <li class="u-d-none-lg">
                                 <a href="wishlist.html">
                                     <i class="far fa-heart"></i>
                                 </a>
-                            </li>
+                            </li> -->
                             <li>
                                 <a id="mini-cart-trigger">
                                     <i class="ion ion-md-basket"></i>
-                                    <span class="item-counter">4</span>
-                                    <span class="item-price">$220.00</span>
+                                    <span class="item-counter totalCartItems">{{ $totalCartItems }}</span>
+                                    <!-- <span class="item-price">$220.00</span> -->
                                 </a>
                             </li>
                         </ul>
@@ -150,64 +178,17 @@ $sections = Section::sections();
         <div class="fixed-responsive-wrapper">
             <button type="button" class="button fas fa-search" id="responsive-search"></button>
         </div>
-        <div class="fixed-responsive-wrapper">
+        <!-- <div class="fixed-responsive-wrapper">
             <a href="wishlist.html">
                 <i class="far fa-heart"></i>
                 <span class="fixed-item-counter">4</span>
             </a>
-        </div>
+        </div> -->
     </div>
     <!-- Responsive-Buttons /- -->
     <!-- Mini Cart -->
-    <div class="mini-cart-wrapper">
-        <div class="mini-cart">
-            <div class="mini-cart-header">
-                YOUR CART
-                <button type="button" class="button ion ion-md-close" id="mini-cart-close"></button>
-            </div>
-            <ul class="mini-cart-list">
-                <li class="clearfix">
-                    <a href="single-product.html">
-                        <img src="{{ asset('front/images/product/product@1x.jpg') }}" alt="Product">
-                        <span class="mini-item-name">Product name</span>
-                        <span class="mini-item-price">$100.00</span>
-                        <span class="mini-item-quantity"> x 1 </span>
-                    </a>
-                </li>
-                <li class="clearfix">
-                    <a href="single-product.html">
-                        <img src="{{ asset('front/images/product/product@1x.jpg') }}" alt="Product">
-                        <span class="mini-item-name">Product name</span>
-                        <span class="mini-item-price">$100.00</span>
-                        <span class="mini-item-quantity"> x 1 </span>
-                    </a>
-                </li>
-                <li class="clearfix">
-                    <a href="single-product.html">
-                        <img src="{{ asset('front/images/product/product@1x.jpg') }}" alt="Product">
-                        <span class="mini-item-name">Product name</span>
-                        <span class="mini-item-price">$100.00</span>
-                        <span class="mini-item-quantity"> x 1 </span>
-                    </a>
-                </li>
-                <li class="clearfix">
-                    <a href="single-product.html">
-                        <img src="{{ asset('front/images/product/product@1x.jpg') }}" alt="Product">
-                        <span class="mini-item-name">Product name</span>
-                        <span class="mini-item-price">$100.00</span>
-                        <span class="mini-item-quantity"> x 1 </span>
-                    </a>
-                </li>
-            </ul>
-            <div class="mini-shop-total clearfix">
-                <span class="mini-total-heading float-left">Total:</span>
-                <span class="mini-total-price float-right">$400.00</span>
-            </div>
-            <div class="mini-action-anchors">
-                <a href="cart.html" class="cart-anchor">View Cart</a>
-                <a href="checkout.html" class="checkout-anchor">Checkout</a>
-            </div>
-        </div>
+    <div id="appendHeaderCartItems">
+        @include('front.layout.header_cart_items')
     </div>
     <!-- Mini Cart /- -->
     <!-- Bottom-Header -->
@@ -224,8 +205,8 @@ $sections = Section::sections();
                         <nav>
                             <div class="v-wrapper">
                                 <ul class="v-list animated fadeIn">
-                                @foreach($sections as $section)
-                                @if(count($section['categories'])>0)
+                                    @foreach($sections as $section)
+                                    @if(count($section['categories'])>0)
                                     <li class="js-backdrop">
                                         <a href="javascript:;">
                                             <i class="ion-ios-add-circle"></i>
@@ -239,11 +220,11 @@ $sections = Section::sections();
                                                 <div class="col-lg-4">
                                                     <ul class="v-level-2">
                                                         <li>
-                                                            <a href="{{url($category['url'])}}">{{$category['category_name']}}</a>
+                                                            <a href="{{ url($category['url']) }}">{{ $category['category_name'] }}</a>
                                                             <ul>
                                                                 @foreach($category['subcategories'] as $subcategory)
                                                                 <li>
-                                                                    <a href="{{url($subcategory['url'])}}">{{$subcategory['category_name']}}</a>
+                                                                    <a href="{{ url($subcategory['url']) }}">{{ $subcategory['category_name'] }}</a>
                                                                 </li>
                                                                 @endforeach
                                                             </ul>
@@ -254,14 +235,16 @@ $sections = Section::sections();
                                             </div>
                                         </div>
                                     </li>
-                                @endif    
-                                @endforeach    
-                                    <li>
+                                    @endif
+                                    @endforeach
+
+
+                                    <!-- <li>
                                         <a class="v-more">
                                             <i class="ion ion-md-add"></i>
                                             <span>View More</span>
                                         </a>
-                                    </li>
+                                    </li> -->
                                 </ul>
                             </div>
                         </nav>
@@ -270,22 +253,22 @@ $sections = Section::sections();
                 <div class="col-lg-9">
                     <ul class="bottom-nav g-nav u-d-none-lg">
                         <li>
-                            <a href="listing-without-filters.html">New Arrivals
+                            <a href="{{ url('search-products?search=new-arrivals') }}">New Arrivals
                                 <span class="superscript-label-new">NEW</span>
                             </a>
                         </li>
                         <li>
-                            <a href="listing-without-filters.html">Best Seller
+                            <a href="{{ url('search-products?search=best-sellers') }}">Best Seller
                                 <span class="superscript-label-hot">HOT</span>
                             </a>
                         </li>
                         <li>
-                            <a href="listing-without-filters.html">Featured
+                            <a href="{{ url('search-products?search=featured') }}">Featured
                             </a>
                         </li>
                         <li>
-                            <a href="listing-without-filters.html">Discounted
-                                <span class="superscript-label-discount">-30%</span>
+                            <a href="{{ url('search-products?search=discounted') }}">Discounted
+                                <span class="superscript-label-discount">>10%</span>
                             </a>
                         </li>
                         <li class="mega-position">
@@ -296,37 +279,37 @@ $sections = Section::sections();
                                 <ul>
                                     <li class="menu-title">COMPANY</li>
                                     <li>
-                                        <a href="about.html" class="u-c-brand">About Us</a>
+                                        <a href="{{url('about-us')}}" class="u-c-brand">About Us</a>
                                     </li>
                                     <li>
-                                        <a href="contact.html">Contact Us</a>
+                                        <a href="{{url('contact')}}">Contact Us</a>
                                     </li>
                                     <li>
-                                        <a href="faq.html">FAQ</a>
+                                        <a href="{{url('faq')}}">FAQ</a>
                                     </li>
                                 </ul>
                                 <ul>
                                     <li class="menu-title">COLLECTION</li>
                                     <li>
-                                        <a href="cart.html">Men Clothing</a>
+                                        <a href="{{url('men')}}">Men Clothing</a>
                                     </li>
                                     <li>
-                                        <a href="checkout.html">Women Clothing</a>
+                                        <a href="{{url('women')}}">Women Clothing</a>
                                     </li>
                                     <li>
-                                        <a href="account.html">Kids Clothing</a>
+                                        <a href="{{url('kids')}}">Kids Clothing</a>
                                     </li>
                                 </ul>
                                 <ul>
                                     <li class="menu-title">ACCOUNT</li>
                                     <li>
-                                        <a href="shop-v1-root-category.html">My Account</a>
+                                        <a href="{{url('user/account')}}">My Account</a>
                                     </li>
-                                    <li>
+                                    <!-- <li>
                                         <a href="shop-v1-root-category.html">My Profile</a>
-                                    </li>
+                                    </li> -->
                                     <li>
-                                        <a href="listing.html">My Orders</a>
+                                        <a href="{{url('user/orders')}}">My Orders</a>
                                     </li>
                                     
                                 </ul>

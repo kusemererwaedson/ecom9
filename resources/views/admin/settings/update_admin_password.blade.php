@@ -7,7 +7,7 @@
                 <div class="row">
                     <div class="col-12 col-xl-8 mb-4 mb-xl-0">
                         <h3 class="font-weight-bold">Settings</h3>
-                        {{-- <h6 class="font-weight-normal mb-0"> Update Admin Password </h6>  --}}
+                        <!-- <h6 class="font-weight-normal mb-0">Update Admin Password</h6> -->
                     </div>
                     <div class="col-12 col-xl-4">
                         <div class="justify-content-end d-flex">
@@ -33,29 +33,31 @@
                 <div class="card-body">
                   <h4 class="card-title">Update Admin Password</h4>
                   @if(Session::has('error_message'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Error: </strong> {{ Session::get('error_message')}}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                    </div>
-                 @endif
-                 @if(Session::has('success_message'))
+                      <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong>Error: </strong> {{ Session::get('error_message')}}
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                  @endif
+
+                  @if(Session::has('success_message'))
                   <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong>Success: </strong> {{ Session::get('success_message')}}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="close">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
-                    </div>
-                 @endif
-                  <form class="forms-sample" action="{{ url('admin/update-admin-password') }}" method="post" name="updateAdminPasswordForm" id="updateAdminPasswordForm">@csrf
+                  </div>
+                  @endif
+                  
+                  <form class="forms-sample" action="{{ url('admin/update-admin-password') }}" method="post">@csrf
                     <div class="form-group">
                       <label>Admin Username/Email</label>
-                      <input class="form-control" value="{{ $adminDetails['email']}}" readonly="">
+                      <input class="form-control" value="{{ $adminDetails['email'] }}" readonly="">
                     </div>
                     <div class="form-group">
                       <label>Admin Type</label>
-                      <input class="form-control" value="{{ $adminDetails['type']}}" readonly="">
+                      <input class="form-control" value="{{ $adminDetails['type'] }}" readonly="">
                     </div>
                     <div class="form-group">
                       <label for="current_password">Current Password</label>
@@ -76,6 +78,7 @@
                 </div>
               </div>
             </div>
+            
           </div>
     </div>
     <!-- content-wrapper ends -->

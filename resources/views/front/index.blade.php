@@ -1,4 +1,5 @@
-<?php use App\Models\Product; ?>
+<?php use App\Models\Product; 
+use App\Models\Currency; ?>
 @extends('front.layout.layout')
 @section('content')
 <!-- Main-Slider -->
@@ -7,8 +8,8 @@
         @foreach($sliderBanners as $banner)
         <div class="bg-image">
             <div class="slide-content">
-                <h1><a @if(!empty($banner['link'])) href="{{url($banner['link'])}}" @else href="javascript:;" @endif><img src="{{ asset('front/images/banner_images/'.$banner['image']) }}"></a></h1>
-                <h2>{{$banner['title']}}</h2>
+                <h1><a @if(!empty($banner['link'])) href="{{ url($banner['link']) }}" @else href="javascript:;" @endif><img title="{{ $banner['title'] }}" alt="{{ $banner['title'] }}" src="{{ asset('front/images/banner_images/'.$banner['image']) }}"></a></h1>
+                <h2>{{ $banner['title'] }}</h2>
             </div>
         </div>
         @endforeach
@@ -20,8 +21,8 @@
 <div class="banner-layer">
     <div class="container">
         <div class="image-banner">
-            <a target="_blank" rel="nofollow" href="{{url($fixBanners[0]['link'])}}" class="mx-auto banner-hover effect-dark-opacity">
-                <img class="img-fluid" src="{{ asset('front/images/banner_images/'.$fixBanners[0]['image']) }}" alt="$fixBanners[0]['alt']" title="$fixBanners[0]['title']">
+            <a target="_blank" rel="nofollow" href="{{ url($fixBanners[0]['link']) }}" class="mx-auto banner-hover effect-dark-opacity">
+                <img class="img-fluid" src="{{ asset('front/images/banner_images/'.$fixBanners[0]['image']) }}" alt="{{ $fixBanners[0]['alt'] }}" title="{{ $fixBanners[0]['title'] }}">
             </a>
         </div>
     </div>
@@ -53,17 +54,18 @@
                 <div class="tab-content">
                     <div class="tab-pane active show fade" id="men-latest-products">
                         <div class="slider-fouc">
-                         <div class="products-slider owl-carousel" data-item="4">
-                            @foreach($newProducts as $product)
-                            <?php $product_image_path = 'front/images/product_images/small/'.$product['product_image']; ?>
+                            <div class="products-slider owl-carousel" data-item="4">
+                                @foreach($newProducts as $product)
+                                <?php // echo "<pre>"; print_r($product); die; ?>
+                                <?php $product_image_path = 'front/images/product_images/small/'.$product['product_image']; ?>
                                 <div class="item">
                                     <div class="image-container">
-                                        <a class="item-img-wrapper-link" href="{{url('product/'.$product['id'])}}">
-                                        @if(!empty($product['product_image']) && file_exists($product_image_path))
+                                        <a class="item-img-wrapper-link" href="{{ url('product/'.$product['id']) }}">
+                                            @if(!empty($product['product_image']) && file_exists($product_image_path))
                                             <img class="img-fluid" src="{{ asset($product_image_path) }}" alt="Product">
-                                        @else
-                                            <img class="img-fluid" src="{{ asset('front/images/product_images/small/ecom9S.png') }}" alt="Product">
-                                        @endif    
+                                            @else
+                                            <img class="img-fluid" src="{{ asset('front/images/product_images/small/no-image.png') }}" alt="Product">
+                                            @endif
                                         </a>
                                         <div class="item-action-behaviors">
                                             <a class="item-quick-look" data-toggle="modal" href="#quick-view">Quick Look
@@ -77,11 +79,11 @@
                                         <div class="what-product-is">
                                             <ul class="bread-crumb">
                                                 <li>
-                                                    <a href="{{url('product/'.$product['id'])}}">{{ $product['product_code'] }}</a>
+                                                    <a href="{{ url('product/'.$product['id']) }}">{{ $product['product_code'] }}</a>
                                                 </li>
                                             </ul>
                                             <h6 class="item-title">
-                                                <a href="{{url('product/'.$product['id'])}}">{{$product['product_name']}}</a>
+                                                <a href="{{ url('product/'.$product['id']) }}">{{ $product['product_name'] }}</a>
                                             </h6>
                                             <div class="item-stars">
                                                 <div class='star' title="0 out of 5 - based on 0 Reviews">
@@ -91,44 +93,67 @@
                                             </div>
                                         </div>
                                         <?php $getDiscountPrice = Product::getDiscountPrice($product['id']); ?>
-                                        @if($getDiscountPrice>0) 
-                                        <div class="price-template">
-                                            <div class="item-new-price">
-                                                ${{$getDiscountPrice}}
+                                        @if(isset($_GET['cy'])&&$_GET['cy']!="UGX")
+                                            @php 
+                                                $getCurrency = Currency::where('currency_code',$_GET['cy'])->first()->toArray();
+                                            @endphp
+                                            @if($getDiscountPrice>0)
+                                            <div class="price-template">
+                                                <div class="item-new-price">
+                                                    {{$_GET['cy']}} {{ round($getDiscountPrice/$getCurrency['exchange_rate'],2) }}
+                                                </div>
+                                                <div class="item-old-price">
+                                                    {{$_GET['cy']}} {{ round($product['product_price']/$getCurrency['exchange_rate'],2) }}
+                                                </div>
                                             </div>
-                                            <div class="item-old-price">
-                                                ${{$product['product_price']}}
+                                            @else
+                                            <div class="price-template">
+                                                <div class="item-new-price">
+                                                    {{$_GET['cy']}} {{ round($product['product_price']/$getCurrency['exchange_rate'],2) }}
+                                                </div>
                                             </div>
-                                        </div>
+                                            @endif
                                         @else
-                                        <div class="price-template">
-                                            <div class="item-new-price">
-                                                ${{$product['product_price']}}
+                                            @if($getDiscountPrice>0)
+                                            <div class="price-template">
+                                                <div class="item-new-price">
+                                                    UGX {{ $getDiscountPrice }}
+                                                </div>
+                                                <div class="item-old-price">
+                                                    UGX {{ $product['product_price'] }}
+                                                </div>
                                             </div>
-                                        </div>
-                                        @endif
+                                            @else
+                                            <div class="price-template">
+                                                <div class="item-new-price">
+                                                    UGX {{ $product['product_price'] }}
+                                                </div>
+                                            </div>
+                                            @endif
+                                        @endif    
                                     </div>
                                     <div class="tag new">
                                         <span>NEW</span>
                                     </div>
                                 </div>
-                            @endforeach
-                         </div>                            
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                     <div class="tab-pane show fade" id="men-best-selling-products">
                         <div class="slider-fouc">
-                         <div class="products-slider owl-carousel" data-item="4">
-                            @foreach($bestSellers as $product)
-                            <?php $product_image_path = 'front/images/product_images/small/'.$product['product_image']; ?>
+                            <div class="products-slider owl-carousel" data-item="4">
+                                @foreach($bestSellers as $product)
+                                <?php // echo "<pre>"; print_r($product); die; ?>
+                                <?php $product_image_path = 'front/images/product_images/small/'.$product['product_image']; ?>
                                 <div class="item">
                                     <div class="image-container">
-                                        <a class="item-img-wrapper-link" href="{{url('product/'.$product['id'])}}">
-                                        @if(!empty($product['product_image']) && file_exists($product_image_path))
+                                        <a class="item-img-wrapper-link" href="{{ url('product/'.$product['id']) }}">
+                                            @if(!empty($product['product_image']) && file_exists($product_image_path))
                                             <img class="img-fluid" src="{{ asset($product_image_path) }}" alt="Product">
-                                        @else
-                                            <img class="img-fluid" src="{{ asset('front/images/product_images/small/ecom9S.png') }}" alt="Product">
-                                        @endif    
+                                            @else
+                                            <img class="img-fluid" src="{{ asset('front/images/product_images/small/no-image.png') }}" alt="Product">
+                                            @endif
                                         </a>
                                         <div class="item-action-behaviors">
                                             <a class="item-quick-look" data-toggle="modal" href="#quick-view">Quick Look
@@ -142,11 +167,11 @@
                                         <div class="what-product-is">
                                             <ul class="bread-crumb">
                                                 <li>
-                                                    <a href="{{url('product/'.$product['id'])}}">{{ $product['product_code'] }}</a>
+                                                    <a href="{{ url('product/'.$product['id']) }}">{{ $product['product_code'] }}</a>
                                                 </li>
                                             </ul>
                                             <h6 class="item-title">
-                                                <a href="{{url('product/'.$product['id'])}}">{{$product['product_name']}}</a>
+                                                <a href="{{ url('product/'.$product['id']) }}">{{ $product['product_name'] }}</a>
                                             </h6>
                                             <div class="item-stars">
                                                 <div class='star' title="0 out of 5 - based on 0 Reviews">
@@ -156,44 +181,67 @@
                                             </div>
                                         </div>
                                         <?php $getDiscountPrice = Product::getDiscountPrice($product['id']); ?>
-                                        @if($getDiscountPrice>0) 
-                                        <div class="price-template">
-                                            <div class="item-new-price">
-                                                ${{$getDiscountPrice}}
+                                        @if(isset($_GET['cy'])&&$_GET['cy']!="UGX")
+                                            @php 
+                                                $getCurrency = Currency::where('currency_code',$_GET['cy'])->first()->toArray();
+                                            @endphp
+                                            @if($getDiscountPrice>0)
+                                            <div class="price-template">
+                                                <div class="item-new-price">
+                                                    {{$_GET['cy']}} {{ round($getDiscountPrice/$getCurrency['exchange_rate'],2) }}
+                                                </div>
+                                                <div class="item-old-price">
+                                                    {{$_GET['cy']}} {{ round($product['product_price']/$getCurrency['exchange_rate'],2) }}
+                                                </div>
                                             </div>
-                                            <div class="item-old-price">
-                                                ${{$product['product_price']}}
+                                            @else
+                                            <div class="price-template">
+                                                <div class="item-new-price">
+                                                    {{$_GET['cy']}} {{ round($product['product_price']/$getCurrency['exchange_rate'],2) }}
+                                                </div>
                                             </div>
-                                        </div>
+                                            @endif
                                         @else
-                                        <div class="price-template">
-                                            <div class="item-new-price">
-                                                ${{$product['product_price']}}
+                                            @if($getDiscountPrice>0)
+                                            <div class="price-template">
+                                                <div class="item-new-price">
+                                                    UGX {{ $getDiscountPrice }}
+                                                </div>
+                                                <div class="item-old-price">
+                                                    UGX {{ $product['product_price'] }}
+                                                </div>
                                             </div>
-                                        </div>
+                                            @else
+                                            <div class="price-template">
+                                                <div class="item-new-price">
+                                                    UGX {{ $product['product_price'] }}
+                                                </div>
+                                            </div>
+                                            @endif
                                         @endif
                                     </div>
                                     <div class="tag new">
                                         <span>NEW</span>
                                     </div>
                                 </div>
-                            @endforeach
-                         </div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="discounted-products">
                         <div class="slider-fouc">
                             <div class="products-slider owl-carousel" data-item="4">
-                            @foreach($discountedProducts as $product)
-                            <?php $product_image_path = 'front/images/product_images/small/'.$product['product_image']; ?>
+                                @foreach($discountedProducts as $product)
+                                <?php // echo "<pre>"; print_r($product); die; ?>
+                                <?php $product_image_path = 'front/images/product_images/small/'.$product['product_image']; ?>
                                 <div class="item">
                                     <div class="image-container">
-                                        <a class="item-img-wrapper-link" href="{{url('product/'.$product['id'])}}">
-                                        @if(!empty($product['product_image']) && file_exists($product_image_path))
+                                        <a class="item-img-wrapper-link" href="{{ url('product/'.$product['id']) }}">
+                                            @if(!empty($product['product_image']) && file_exists($product_image_path))
                                             <img class="img-fluid" src="{{ asset($product_image_path) }}" alt="Product">
-                                        @else
-                                            <img class="img-fluid" src="{{ asset('front/images/product_images/small/ecom9S.png') }}" alt="Product">
-                                        @endif    
+                                            @else
+                                            <img class="img-fluid" src="{{ asset('front/images/product_images/small/no-image.png') }}" alt="Product">
+                                            @endif
                                         </a>
                                         <div class="item-action-behaviors">
                                             <a class="item-quick-look" data-toggle="modal" href="#quick-view">Quick Look
@@ -207,11 +255,11 @@
                                         <div class="what-product-is">
                                             <ul class="bread-crumb">
                                                 <li>
-                                                    <a href="{{url('product/'.$product['id'])}}">{{ $product['product_code'] }}</a>
+                                                    <a href="{{ url('product/'.$product['id']) }}">{{ $product['product_code'] }}</a>
                                                 </li>
                                             </ul>
                                             <h6 class="item-title">
-                                                <a href="{{url('product/'.$product['id'])}}">{{$product['product_name']}}</a>
+                                                <a href="{{ url('product/'.$product['id']) }}">{{ $product['product_name'] }}</a>
                                             </h6>
                                             <div class="item-stars">
                                                 <div class='star' title="0 out of 5 - based on 0 Reviews">
@@ -221,44 +269,67 @@
                                             </div>
                                         </div>
                                         <?php $getDiscountPrice = Product::getDiscountPrice($product['id']); ?>
-                                        @if($getDiscountPrice>0) 
+                                        @if(isset($_GET['cy'])&&$_GET['cy']!="UGX")
+                                        @php 
+                                            $getCurrency = Currency::where('currency_code',$_GET['cy'])->first()->toArray();
+                                        @endphp
+                                        @if($getDiscountPrice>0)
                                         <div class="price-template">
                                             <div class="item-new-price">
-                                                ${{$getDiscountPrice}}
+                                                {{$_GET['cy']}} {{ round($getDiscountPrice/$getCurrency['exchange_rate'],2) }}
                                             </div>
                                             <div class="item-old-price">
-                                                ${{$product['product_price']}}
+                                                {{$_GET['cy']}} {{ round($product['product_price']/$getCurrency['exchange_rate'],2) }}
                                             </div>
                                         </div>
                                         @else
                                         <div class="price-template">
                                             <div class="item-new-price">
-                                                ${{$product['product_price']}}
+                                                {{$_GET['cy']}} {{ round($product['product_price']/$getCurrency['exchange_rate'],2) }}
                                             </div>
                                         </div>
                                         @endif
+                                    @else
+                                        @if($getDiscountPrice>0)
+                                        <div class="price-template">
+                                            <div class="item-new-price">
+                                                UGX {{ $getDiscountPrice }}
+                                            </div>
+                                            <div class="item-old-price">
+                                                UGX {{ $product['product_price'] }}
+                                            </div>
+                                        </div>
+                                        @else
+                                        <div class="price-template">
+                                            <div class="item-new-price">
+                                                UGX {{ $product['product_price'] }}
+                                            </div>
+                                        </div>
+                                        @endif
+                                    @endif
                                     </div>
                                     <div class="tag new">
                                         <span>NEW</span>
                                     </div>
                                 </div>
-                            @endforeach
-                         </div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="men-featured-products">
                         <div class="slider-fouc">
                             <div class="products-slider owl-carousel" data-item="4">
                             @foreach($featuredProducts as $product)
-                            <?php $product_image_path = 'front/images/product_images/small/'.$product['product_image']; ?>
+                                <?php // echo "<pre>"; print_r($product); die; ?>
+                                <?php $product_image_path = 'front/images/product_images/small/'.$product['product_image']; ?>
                                 <div class="item">
                                     <div class="image-container">
-                                        <a class="item-img-wrapper-link" href="{{url('product/'.$product['id'])}}">
-                                        @if(!empty($product['product_image']) && file_exists($product_image_path))
+                                        <a class="item-img-wrapper-link" href="{{ url('product/'.$product['id']) }}">
+                                            @if(!empty($product['product_image']) && file_exists($product_image_path))
                                             <img class="img-fluid" src="{{ asset($product_image_path) }}" alt="Product">
-                                        @else
-                                            <img class="img-fluid" src="{{ asset('front/images/product_images/small/ecom9S.png') }}" alt="Product">
-                                        @endif    
+                                            @else
+                                            <img class="img-fluid" src="{{ asset('front/images/product_images/small/no-image.png') }}" alt="Product">
+                                            @endif
                                         </a>
                                         <div class="item-action-behaviors">
                                             <a class="item-quick-look" data-toggle="modal" href="#quick-view">Quick Look
@@ -272,11 +343,11 @@
                                         <div class="what-product-is">
                                             <ul class="bread-crumb">
                                                 <li>
-                                                    <a href="{{url('product/'.$product['id'])}}">{{ $product['product_code'] }}</a>
+                                                    <a href="{{ url('product/'.$product['id']) }}">{{ $product['product_code'] }}</a>
                                                 </li>
                                             </ul>
                                             <h6 class="item-title">
-                                                <a href="{{url('product/'.$product['id'])}}">{{$product['product_name']}}</a>
+                                                <a href="{{ url('product/'.$product['id']) }}">{{ $product['product_name'] }}</a>
                                             </h6>
                                             <div class="item-stars">
                                                 <div class='star' title="0 out of 5 - based on 0 Reviews">
@@ -286,29 +357,51 @@
                                             </div>
                                         </div>
                                         <?php $getDiscountPrice = Product::getDiscountPrice($product['id']); ?>
-                                        @if($getDiscountPrice>0) 
+                                        @if(isset($_GET['cy'])&&$_GET['cy']!="UGX")
+                                        @php 
+                                            $getCurrency = Currency::where('currency_code',$_GET['cy'])->first()->toArray();
+                                        @endphp
+                                        @if($getDiscountPrice>0)
                                         <div class="price-template">
                                             <div class="item-new-price">
-                                                ${{$getDiscountPrice}}
+                                                {{$_GET['cy']}} {{ round($getDiscountPrice/$getCurrency['exchange_rate'],2) }}
                                             </div>
                                             <div class="item-old-price">
-                                                ${{$product['product_price']}}
+                                                {{$_GET['cy']}} {{ round($product['product_price']/$getCurrency['exchange_rate'],2) }}
                                             </div>
                                         </div>
                                         @else
                                         <div class="price-template">
                                             <div class="item-new-price">
-                                                ${{$product['product_price']}}
+                                                {{$_GET['cy']}} {{ round($product['product_price']/$getCurrency['exchange_rate'],2) }}
                                             </div>
                                         </div>
                                         @endif
+                                    @else
+                                        @if($getDiscountPrice>0)
+                                        <div class="price-template">
+                                            <div class="item-new-price">
+                                                UGX {{ $getDiscountPrice }}
+                                            </div>
+                                            <div class="item-old-price">
+                                                UGX {{ $product['product_price'] }}
+                                            </div>
+                                        </div>
+                                        @else
+                                        <div class="price-template">
+                                            <div class="item-new-price">
+                                                UGX {{ $product['product_price'] }}
+                                            </div>
+                                        </div>
+                                        @endif
+                                    @endif
                                     </div>
                                     <div class="tag new">
                                         <span>NEW</span>
                                     </div>
                                 </div>
-                            @endforeach
-                         </div>
+                                @endforeach
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -317,13 +410,13 @@
     </div>
 </section>
 <!-- Top Collection /- -->
-@if(isset($fixBanners[0]['image']))
+@if(isset($fixBanners[1]['image']))
 <!-- Banner-Layer -->
 <div class="banner-layer">
     <div class="container">
         <div class="image-banner">
-            <a target="_blank" rel="nofollow" href="{{url($fixBanners[0]['link'])}}" class="mx-auto banner-hover effect-dark-opacity">
-                <img class="img-fluid" src="{{ asset('front/images/banner_images/'.$fixBanners[0]['image']) }}" alt="$fixBanners[0]['alt']" title="$fixBanners[0]['title']">
+            <a target="_blank" rel="nofollow" href="{{ url($fixBanners[1]['link']) }}" class="mx-auto banner-hover effect-dark-opacity">
+                <img class="img-fluid" src="{{ asset('front/images/banner_images/'.$fixBanners[1]['image']) }}" alt="{{ $fixBanners[1]['alt'] }}" title="{{ $fixBanners[1]['title'] }}">
             </a>
         </div>
     </div>

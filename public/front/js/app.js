@@ -691,6 +691,8 @@ $(function () {
     /**
      * Attach Click event to Grid & List
      */
+     $shopProductContainer.addClass('grid-style');
+     $shopProductContainer.removeClass('list-style');
     const attachClickGridAndList = function () {
         $('#list-anchor').on('click',function () {
             $(this).addClass('active');
@@ -698,8 +700,6 @@ $(function () {
             $shopProductContainer.removeClass('grid-style');
             $shopProductContainer.addClass('list-style');
         });
-        $shopProductContainer.addClass('grid-style');
-        $shopProductContainer.removeClass('list-style');
         $('#grid-anchor').on('click',function () {
             $(this).addClass('active');
             $(this).prev().removeClass('active');
