@@ -275,7 +275,7 @@ class UserController extends Controller
                 // Send Welcome Email
                 $messageData = ['name'=>$userDetails->name,'mobile'=>$userDetails->mobile,'email'=>$email];
                 Mail::send('emails.register',$messageData,function($message)use($email){
-                    $message->to($email)->subject('Welcome to Stack Developers');
+                    $message->to($email)->subject('Welcome to Hakateq Solutions');
                 });
 
                 // Redirect the user to Login/Register Page with success message

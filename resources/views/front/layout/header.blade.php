@@ -85,7 +85,7 @@ $page_url = Request::url();
                                 <i class="fas fa-chevron-down u-s-m-l-9"></i>
                             </a>
                         @else
-                            <a>INR
+                            <a>UGX
                                 <i class="fas fa-chevron-down u-s-m-l-9"></i>
                             </a>
                         @endif

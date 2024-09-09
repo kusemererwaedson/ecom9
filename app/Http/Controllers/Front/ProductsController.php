@@ -591,6 +591,7 @@ class ProductsController extends Controller
 
         $total_price = 0;
         $total_weight = 0;
+        $vendorCommission = 0; // Initialize with a default value
         foreach ($getCartItems as $item) {
             /*echo "<pre>"; print_r($item); die;*/
             $attrPrice = Product::getDiscountAttributePrice($item['product_id'],$item['size']);

@@ -7,7 +7,7 @@
 <body>
 	<table style="width:700px;">
 		<tr><td>&nbsp;</td></tr>
-		<tr><td><img src="{{ asset('front/images/eddie.jpeg') }}"></td></tr>
+		<tr><td><img src="{{ asset('front/images/solution.jpg') }}"></td></tr>
 		<tr><td>&nbsp;</td></tr>
 		<tr><td>Hello {{$vendorEmail}}</td></tr>
 		<tr><td>&nbsp;</td></tr>

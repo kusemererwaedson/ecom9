@@ -8,9 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Vendor extends Model
 {
     use HasFactory;
-
     public function vendorbusinessdetails(){
-        return $this->belongsTo('App\Models\VendorsBusinessDetail','id','vendor_id');
+       return $this->belongsTo('App\Models\VendorsBusinessDetail','id','vendor_id');
     }
 
     public static function getVendorShop($vendorid){

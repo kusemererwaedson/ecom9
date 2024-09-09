@@ -8,7 +8,7 @@
 	<table>
 		<tr><td>Dear {{ $name }}</td></tr>
 		<tr><td>&nbsp;</td></tr>
-		<tr><td>Welcome to Stack Developers. Your account has been successfully created with below information:</td></tr>
+		<tr><td>Welcome to hakateq Solutions. Your account has been successfully created with below information:</td></tr>
 		<tr><td>&nbsp;</td></tr>
 		<tr><td>Name: {{ $name }}</td></tr>
 		<tr><td>&nbsp;</td></tr>

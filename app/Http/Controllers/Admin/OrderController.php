@@ -518,8 +518,8 @@ class OrderController extends Controller
             <div class="company-address">
                 <h2 class="title">HAKATEQ SOLUTIONS</h2>
                 <p>
-                    123 - ABC, Mall Road<br>
-                    Delhi, India
+                    kwetu homes<br>
+                    Kireka, Kampala
                 </p>
             </div>
             <div class="company-contact">
