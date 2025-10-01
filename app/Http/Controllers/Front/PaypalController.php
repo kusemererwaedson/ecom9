@@ -35,10 +35,15 @@ class PaypalController extends Controller
 
     public function pay(Request $request){
         try{
+            // Check if required session data exists
+            if(!Session::has('grand_total') || !Session::has('order_id')){
+                return redirect('cart')->with('error_message', 'Session expired. Please try again.');
+            }
+            
             $paypal_amount = round(Session::get('grand_total')/80,2);
             $response = $this->gateway->purchase(array(
                 'amount' => $paypal_amount,
-                'currency' => env('PAYPAL_CURRENCY'),
+                'currency' => env('PAYPAL_CURRENCY', 'USD'),
                 'returnUrl' => url('success'),
                 'cancelUrl' => url('error')
             ))->send();
