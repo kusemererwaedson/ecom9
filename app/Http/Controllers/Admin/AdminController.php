@@ -33,7 +33,31 @@ class AdminController extends Controller
         $couponsCount = Coupon::count();
         $brandsCount = Brand::count();
         $usersCount = User::count();
-        return view('admin.dashboard')->with(compact('sectionsCount','categoriesCount','productsCount','ordersCount','couponsCount','brandsCount','usersCount'));
+        
+        // Chart data
+        $monthlyOrders = Order::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('month')
+            ->pluck('count', 'month')->toArray();
+            
+        $monthlyRevenue = Order::selectRaw('MONTH(created_at) as month, SUM(grand_total) as total')
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('month')
+            ->pluck('total', 'month')->toArray();
+            
+        $orderStatus = Order::selectRaw('order_status, COUNT(*) as count')
+            ->groupBy('order_status')
+            ->pluck('count', 'order_status')->toArray();
+            
+        $topProducts = Product::select('products.id', 'products.product_name')
+            ->leftJoin('orders_products', 'products.id', '=', 'orders_products.product_id')
+            ->selectRaw('products.id, products.product_name, COUNT(orders_products.id) as orders_count')
+            ->groupBy('products.id', 'products.product_name')
+            ->orderBy('orders_count', 'desc')
+            ->limit(5)
+            ->get();
+            
+        return view('admin.dashboard')->with(compact('sectionsCount','categoriesCount','productsCount','ordersCount','couponsCount','brandsCount','usersCount','monthlyOrders','monthlyRevenue','orderStatus','topProducts'));
     }
 
     public function updateAdminPassword(Request $request){

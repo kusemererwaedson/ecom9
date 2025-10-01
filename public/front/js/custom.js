@@ -407,26 +407,19 @@ $(document).ready(function(){
     	var shipping_charges = $(this).attr("shipping_charges");
     	var total_price = $(this).attr("total_price");
     	var coupon_amount = $(this).attr("coupon_amount");
-    	$(".shipping_charges").html("Rs."+shipping_charges);
+    	$(".shipping_charges").html("shs."+shipping_charges);
     	var codpincodeCount = $(this).attr("codpincodeCount");
     	var prepaidpincodeCount = $(this).attr("prepaidpincodeCount");
-    	if(codpincodeCount>0){
-    		$(".codMethod").show();
-    	}else{
-    		$(".codMethod").hide();
-    	}
-    	if(prepaidpincodeCount>0){
-    		$(".prepaidMethod").show();
-    	}else{
-    		$(".prepaidMethod").hide();
-    	}
+    	// Always show both payment methods
+    	$(".codMethod").show();
+    	$(".prepaidMethod").show();
     	if(coupon_amount==""){
     		coupon_amount = 0;
     	}
-    	$(".couponAmount").html("Rs."+coupon_amount);
+    	$(".couponAmount").html("shs."+coupon_amount);
     	var grand_total = parseInt(total_price) + parseInt(shipping_charges) - parseInt(coupon_amount);
     	/*alert(grand_total);*/
-    	$(".grand_total").html("Rs."+grand_total);
+    	$(".grand_total").html("shs."+grand_total);
     });
 
     // Verify Pincode at Detail Page

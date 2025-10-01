@@ -33,6 +33,10 @@ class Product extends Model
         return $this->belongsTo('App\Models\Vendor','vendor_id')->with('vendorbusinessdetails');
     }
 
+    public function orders_products(){
+        return $this->hasMany('App\Models\OrdersProduct','product_id');
+    }
+
     public static function getDiscountPrice($product_id){
         $proDetails = Product::select('product_price','product_discount','category_id')->where('id',$product_id)->first();
         $proDetails = json_decode(json_encode($proDetails),true);
