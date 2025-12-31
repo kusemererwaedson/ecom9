@@ -10,6 +10,7 @@ use Omnipay\Omnipay;
 use App\Models\Payment;
 use App\Models\Order;
 use App\Models\Cart;
+use App\Models\ProductsAttribute;
 use Auth;
 
 class PaypalController extends Controller
@@ -98,7 +99,7 @@ class PaypalController extends Controller
                     'orderDetails' => $orderDetails
                 ];
                 Mail::send('emails.order',$messageData,function($message)use($email){
-                    $message->to($email)->subject('Order Placed - StackDevelopers.in');
+                    $message->to($email)->subject('Order Placed - edsonkusemererwa2000@gmail.com');
                 });
 
                 // Reduce Stock Script Starts

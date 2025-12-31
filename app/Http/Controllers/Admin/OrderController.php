@@ -118,7 +118,7 @@ class OrderController extends Controller
                     'tracking_number' => $data['tracking_number'],
                 ];
                 Mail::send('emails.order_status',$messageData,function($message)use($email){
-                    $message->to($email)->subject('Order Status Updated - StackDevelopers.in');
+                    $message->to($email)->subject('Order Status Updated - Hakateq Solutions');
                 });
 
             }else{
@@ -132,7 +132,7 @@ class OrderController extends Controller
                     'order_status' => $data['order_status'],
                 ];
                 Mail::send('emails.order_status',$messageData,function($message)use($email){
-                    $message->to($email)->subject('Order Status Updated - StackDevelopers.in');
+                    $message->to($email)->subject('Order Status Updated - Hakateq Solutions');
                 });   
             }
 
@@ -140,7 +140,7 @@ class OrderController extends Controller
 
 
             // Send Order Status Update SMS
-            /*$message = "Dear Customer, your order #".$data['order_id']." status has been updated to ".$data['order_status']." placed with StackDevelopers.in";
+            /*$message = "Dear Customer, your order #".$data['order_id']." status has been updated to ".$data['order_status']." placed with Hakateq Solutions";
             $mobile = $deliveryDetails['mobile'];
             Sms:sendSms($message,$mobile);*/
 
@@ -193,7 +193,7 @@ class OrderController extends Controller
                     'tracking_number' => $data['item_tracking_number'],
                 ];
                 Mail::send('emails.order_item_status',$messageData,function($message)use($email){
-                    $message->to($email)->subject('Order Status Updated - StackDevelopers.in');
+                    $message->to($email)->subject('Order Status Updated - Hakateq Solutions');
                 });
             }else{
                 // Send Order Status Update Email
@@ -206,7 +206,7 @@ class OrderController extends Controller
                     'order_status' => $data['order_item_status'],
                 ];
                 Mail::send('emails.order_item_status',$messageData,function($message)use($email){
-                    $message->to($email)->subject('Order Status Updated - StackDevelopers.in');
+                    $message->to($email)->subject('Order Status Updated - Hakateq Solutions');
                 });    
             }
 
@@ -214,7 +214,7 @@ class OrderController extends Controller
 
 
             // Send Order Status Update SMS
-            /*$message = "Dear Customer, your order #".$order_id." status has been updated to ".$data['order_status']." placed with StackDevelopers.in";
+            /*$message = "Dear Customer, your order #".$order_id." status has been updated to ".$data['order_status']." placed with Hakateq Solutions";
             $mobile = $deliveryDetails['mobile'];
             Sms:sendSms($message,$mobile);*/
 
@@ -516,7 +516,7 @@ class OrderController extends Controller
     <header class="clearfix">
         <div class="container">
             <div class="company-address">
-                <h2 class="title">STACK DEVELOPERS</h2>
+                <h2 class="title">HAKATEQ SOLUTIONS</h2>
                 <p>
                     123 - ABC, Mall Road<br>
                     Delhi, India
@@ -529,7 +529,7 @@ class OrderController extends Controller
                 </div>
                 <div class="email right">
                     <span class="circle"><img src="data:image/svg+xml;charset=utf-8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNS4xLjAsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zOnNrZXRjaD0iaHR0cDovL3d3dy5ib2hlbWlhbmNvZGluZy5jb20vc2tldGNoL25zIg0KCSB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIgd2lkdGg9IjE0LjE3M3B4Ig0KCSBoZWlnaHQ9IjE0LjE3M3B4IiB2aWV3Qm94PSIwLjM1NCAtMi4yNzIgMTQuMTczIDE0LjE3MyIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwLjM1NCAtMi4yNzIgMTQuMTczIDE0LjE3MyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSINCgk+DQo8dGl0bGU+ZW1haWwxOTwvdGl0bGU+DQo8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4NCjxnIGlkPSJQYWdlLTEiIHNrZXRjaDp0eXBlPSJNU1BhZ2UiPg0KCTxnIGlkPSJJTlZPSUNFLTEiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC00MTcuMDAwMDAwLCAtNTUuMDAwMDAwKSIgc2tldGNoOnR5cGU9Ik1TQXJ0Ym9hcmRHcm91cCI+DQoJCTxnIGlkPSJaQUdMQVZMSkUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDMwLjAwMDAwMCwgMTUuMDAwMDAwKSIgc2tldGNoOnR5cGU9Ik1TTGF5ZXJHcm91cCI+DQoJCQk8ZyBpZD0iS09OVEFLVEkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDI2Ny4wMDAwMDAsIDM1LjAwMDAwMCkiIHNrZXRjaDp0eXBlPSJNU1NoYXBlR3JvdXAiPg0KCQkJCTxnIGlkPSJPdmFsLTEtX3gyQl8tZW1haWwxOSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTE3LjAwMDAwMCwgMC4wMDAwMDApIj4NCgkJCQkJPHBhdGggaWQ9ImVtYWlsMTkiIGZpbGw9IiM4QkMzNEEiIGQ9Ik0zLjM1NCwxNC4yODFoMTQuMTczVjUuMzQ2SDMuMzU0VjE0LjI4MXogTTEwLjQ0LDEwLjg2M0w0LjYyNyw2LjAwOGgxMS42MjZMMTAuNDQsMTAuODYzDQoJCQkJCQl6IE04LjEyNSw5LjgxMkw0LjA1LDEzLjIxN1Y2LjQwOUw4LjEyNSw5LjgxMnogTTguNjUzLDEwLjI1M2wxLjc4OCwxLjQ5M2wxLjc4Ny0xLjQ5M2w0LjAyOSwzLjM2Nkg0LjYyNEw4LjY1MywxMC4yNTN6DQoJCQkJCQkgTTEyLjc1NSw5LjgxMmw0LjA3NS0zLjQwM3Y2LjgwOEwxMi43NTUsOS44MTJ6Ii8+DQoJCQkJPC9nPg0KCQkJPC9nPg0KCQk8L2c+DQoJPC9nPg0KPC9nPg0KPC9zdmc+DQo=" alt=""><span class="helper"></span></span>
-                    <a href="mailto:company@example.com">company@example.com</a>
+                    <a href="mailto:edsonkusemererwa2000@gmail.com">edsonkusemererwa2000@gmail.com</a>
                     <span class="helper"></span>
                 </div>
             </div>
@@ -549,7 +549,7 @@ class OrderController extends Controller
                     <div class="title">Order ID: '.$orderDetails['id'].'</div>
                     <div class="date">
                         Order Date: '.date('Y-m-d h:i:s', strtotime($orderDetails['created_at'])).'<br>
-                        Order Amount: INR '.$orderDetails['grand_total'].'<br>
+                        Order Amount: UGX '.$orderDetails['grand_total'].'<br>
                         Order Status: '.$orderDetails['order_status'].'<br>
                         Payment Method: '.$orderDetails['payment_method'].'<br>
                     </div>
@@ -575,8 +575,8 @@ class OrderController extends Controller
                         <td class="qty">'.$product['product_size'].'</td>
                         <td class="qty">'.$product['product_color'].'</td>
                         <td class="qty">'.$product['product_qty'].'</td>
-                        <td class="unit">INR '.$product['product_price'].'</td>
-                        <td class="total">INR '.$product['product_price']*$product['product_qty'].'</td>
+                        <td class="unit">UGX '.$product['product_price'].'</td>
+                        <td class="total">UGX '.$product['product_price']*$product['product_qty'].'</td>
                     </tr>';
                     $subTotal = $subTotal + ($product['product_price']*$product['product_qty']);
                 }
@@ -591,14 +591,14 @@ class OrderController extends Controller
                             <td class="desc"></td>
                             <td class="desc"></td>
                             <td class="total" colspan=2>SUBTOTAL</td>
-                            <td class="total">INR '.$subTotal.'</td>
+                            <td class="total">UGX '.$subTotal.'</td>
                         </tr>
                         <tr>
                             <td class="desc"></td>
                             <td class="desc"></td>
                             <td class="desc"></td>
                             <td class="total" colspan=2>SHIPPING</td>
-                            <td class="total">INR 0</td>
+                            <td class="total">UGX 0</td>
                         </tr>
                         <tr>
                             <td class="desc"></td>
@@ -606,9 +606,9 @@ class OrderController extends Controller
                             <td class="desc"></td>
                             <td class="total" colspan=2>DISCOUNT</td>';
                             if($orderDetails['coupon_amount']>0){
-                                $invoiceHTML .= '<td class="total">INR '.$orderDetails['coupon_amount'].'</td>';
+                                $invoiceHTML .= '<td class="total">UGX '.$orderDetails['coupon_amount'].'</td>';
                             }else{
-                                $invoiceHTML .= '<td class="total">INR 0</td>';    
+                                $invoiceHTML .= '<td class="total">UGX 0</td>';    
                             }
                         $invoiceHTML .= '</tr>
                         <tr>
@@ -616,7 +616,7 @@ class OrderController extends Controller
                             <td class="desc"></td>
                             <td class="desc"></td>
                             <td class="total" colspan="2">TOTAL</td>
-                            <td class="total">INR '.$orderDetails['grand_total'].'</td>
+                            <td class="total">UGX '.$orderDetails['grand_total'].'</td>
                         </tr>
                     </tbody>
                 </table>

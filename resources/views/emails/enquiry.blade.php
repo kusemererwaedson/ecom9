@@ -8,7 +8,7 @@
 	<table>
 		<tr><td>Dear Admin!</td></tr>
 		<tr><td>&nbsp;</td></tr>
-		<tr><td>User Enquiry from Stack Developers. Details are as below:</td></tr>
+		<tr><td>User Enquiry from MEWA. Details are as below:</td></tr>
 		<tr><td>&nbsp;</td></tr>
 		<tr><td>Name: {{ $name }}</td></tr>
 		<tr><td>&nbsp;</td></tr>
@@ -20,7 +20,7 @@
 		<tr><td>&nbsp;</td></tr>
 		<tr><td>&nbsp;</td></tr>
 		<tr><td>Thanks & Regards,</td></tr>
-		<tr><td>Stack Developers</td></tr>
+		<tr><td>HAKATEQ SOLUTIONS</td></tr>
 	</table>
 </body>
 </html>

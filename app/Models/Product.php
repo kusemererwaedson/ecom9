@@ -54,8 +54,15 @@ class Product extends Model
         return $discounted_price;
     }
 
+    // public static function getVendorEmail($product_id){
+    //     $vendorId = Product::select('vendor_id')->where('id',$product_id)->first();
+    //     $vendorId = json_decode(json_encode($vendorId),true);
+    //     $vendorEmail = Vendor::select('email')->where('id',$vendorId['id'])->first();
+    // }
+
     public static function getDiscountAttributePrice($product_id,$size){
         $proAttrPrice = ProductsAttribute::where(['product_id'=>$product_id,'size'=>$size])->first()->toArray();
+        $catDetails = json_decode(json_encode($catDetails),true);
         $proDetails = Product::select('product_discount','category_id')->where('id',$product_id)->first();
         $proDetails = json_decode(json_encode($proDetails),true);
         $catDetails = Category::select('category_discount')->where('id',$proDetails['category_id'])->first();
@@ -102,5 +109,6 @@ class Product extends Model
     public static function deleteCartProduct($product_id){
         Cart::where('product_id',$product_id)->delete();
     }
+
 
 }

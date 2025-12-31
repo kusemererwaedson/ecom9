@@ -84,6 +84,7 @@ class ProductsController extends Controller
                 'product_name' => 'required',
                 'product_code' => 'required|regex:/^\w+$/',
                 'product_price' => 'required|numeric',
+                'product_weight' => 'required|numeric',
                 'product_color' => 'required|regex:/^[\pL\s\-]+$/u',
             ];
 
@@ -97,6 +98,8 @@ class ProductsController extends Controller
                 'product_price.numeric' => 'Valid Product Price is required',
                 'product_color.required' => 'Product Color is required',
                 'product_color.regex' => 'Valid Product Color is required',
+                'product_weight.regex' => 'Valid Product Weight is required',
+                'product_weight.required' => 'Product Weight is required',
             ];
 
             $this->validate($request,$rules,$customMessages);

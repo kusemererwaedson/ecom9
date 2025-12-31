@@ -7,7 +7,7 @@
 <body>
 	<table style="width:700px;">
 		<tr><td>&nbsp;</td></tr>
-		<tr><td><img src="{{ asset('front/images/main-logo/stack-developers-logo.png') }}"></td></tr>
+		<tr><td><img src="{{ asset('front/images/eddie.jpeg') }}"></td></tr>
 		<tr><td>&nbsp;</td></tr>
 		<tr><td>Hello {{$name}}</td></tr>
 		<tr><td>&nbsp;</td></tr>
@@ -74,9 +74,9 @@
 			</table>
 		</td></tr>
 		<tr><td>&nbsp;</td></tr>
-		<tr><td>For any queries, you can contact us at <a href="mailto:info@stackdevelopers.in">info@stackdevelopers.in</a></td></tr>
+		<tr><td>For any queries, you can contact us at <a href="edsonkusemererwa2000@gmail.com">edsonkusemererwa2000@gmail.com</a></td></tr>
 		<tr><td>&nbsp;</td></tr>
-		<tr><td>Regards,<br>Team Stack Developers</td></tr>
+		<tr><td>Regards,<br>Team HAKATEQ</td></tr>
 		<tr><td>&nbsp;</td></tr>
 	</table>
 </body>

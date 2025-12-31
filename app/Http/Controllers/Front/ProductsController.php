@@ -787,9 +787,9 @@ class ProductsController extends Controller
                     'orderDetails' => $orderDetails
                 ];
                 Mail::send('emails.order',$messageData,function($message)use($email){
-                    $message->to($email)->subject('Order Placed - StackDevelopers.in');
+                    $message->to($email)->subject('Order Placed - edsonkusemererwa2000@gmail.com');
                 });
-
+                
                 // Send Order SMS
                 /*$message = "Dear Customer, your order ".$order_id." has been successfully placed with StackDevelopers.in. We will intimate you once your order is shipped.";
                 $mobile = Auth::user()->mobile;
